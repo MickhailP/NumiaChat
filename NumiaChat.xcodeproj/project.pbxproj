@@ -10,7 +10,6 @@
 		D73E52352A28B8700019BC95 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E52342A28B8700019BC95 /* AppDelegate.swift */; };
 		D73E52372A28B8700019BC95 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E52362A28B8700019BC95 /* SceneDelegate.swift */; };
 		D73E52392A28B8700019BC95 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E52382A28B8700019BC95 /* ViewController.swift */; };
-		D73E523C2A28B8700019BC95 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D73E523A2A28B8700019BC95 /* Main.storyboard */; };
 		D73E523E2A28B8720019BC95 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D73E523D2A28B8720019BC95 /* Assets.xcassets */; };
 		D73E52412A28B8720019BC95 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D73E523F2A28B8720019BC95 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -18,9 +17,8 @@
 /* Begin PBXFileReference section */
 		D73E52312A28B8700019BC95 /* NumiaChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NumiaChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D73E52342A28B8700019BC95 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D73E52362A28B8700019BC95 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		D73E52382A28B8700019BC95 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		D73E523B2A28B8700019BC95 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D73E52362A28B8700019BC95 /* SceneDelegate.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
+		D73E52382A28B8700019BC95 /* ViewController.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D73E523D2A28B8720019BC95 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D73E52402A28B8720019BC95 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D73E52422A28B8720019BC95 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -43,7 +41,9 @@
 				D73E52332A28B8700019BC95 /* NumiaChat */,
 				D73E52322A28B8700019BC95 /* Products */,
 			);
+			indentWidth = 4;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		D73E52322A28B8700019BC95 /* Products */ = {
 			isa = PBXGroup;
@@ -56,15 +56,30 @@
 		D73E52332A28B8700019BC95 /* NumiaChat */ = {
 			isa = PBXGroup;
 			children = (
-				D73E52342A28B8700019BC95 /* AppDelegate.swift */,
-				D73E52362A28B8700019BC95 /* SceneDelegate.swift */,
+				D75BCF742A28BBD4009855F9 /* AppSceneDelegates */,
 				D73E52382A28B8700019BC95 /* ViewController.swift */,
-				D73E523A2A28B8700019BC95 /* Main.storyboard */,
-				D73E523D2A28B8720019BC95 /* Assets.xcassets */,
-				D73E523F2A28B8720019BC95 /* LaunchScreen.storyboard */,
+				D75BCF732A28BBC6009855F9 /* Support */,
 				D73E52422A28B8720019BC95 /* Info.plist */,
 			);
 			path = NumiaChat;
+			sourceTree = "<group>";
+		};
+		D75BCF732A28BBC6009855F9 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				D73E523D2A28B8720019BC95 /* Assets.xcassets */,
+				D73E523F2A28B8720019BC95 /* LaunchScreen.storyboard */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		D75BCF742A28BBD4009855F9 /* AppSceneDelegates */ = {
+			isa = PBXGroup;
+			children = (
+				D73E52342A28B8700019BC95 /* AppDelegate.swift */,
+				D73E52362A28B8700019BC95 /* SceneDelegate.swift */,
+			);
+			path = AppSceneDelegates;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -127,7 +142,6 @@
 			files = (
 				D73E52412A28B8720019BC95 /* LaunchScreen.storyboard in Resources */,
 				D73E523E2A28B8720019BC95 /* Assets.xcassets in Resources */,
-				D73E523C2A28B8700019BC95 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,14 +161,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		D73E523A2A28B8700019BC95 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				D73E523B2A28B8700019BC95 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		D73E523F2A28B8720019BC95 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -292,9 +298,9 @@
 				INFOPLIST_FILE = NumiaChat/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -302,6 +308,9 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = MichailDev.NumiaChat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -320,9 +329,9 @@
 				INFOPLIST_FILE = NumiaChat/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -330,6 +339,9 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = MichailDev.NumiaChat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
