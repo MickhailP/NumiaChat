@@ -9,19 +9,27 @@
 /* Begin PBXBuildFile section */
 		D73E52352A28B8700019BC95 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E52342A28B8700019BC95 /* AppDelegate.swift */; };
 		D73E52372A28B8700019BC95 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E52362A28B8700019BC95 /* SceneDelegate.swift */; };
-		D73E52392A28B8700019BC95 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E52382A28B8700019BC95 /* ViewController.swift */; };
+		D73E52392A28B8700019BC95 /* MainScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E52382A28B8700019BC95 /* MainScreenViewController.swift */; };
 		D73E523E2A28B8720019BC95 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D73E523D2A28B8720019BC95 /* Assets.xcassets */; };
 		D73E52412A28B8720019BC95 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D73E523F2A28B8720019BC95 /* LaunchScreen.storyboard */; };
+		D7EDF9EE2A28CC68003E8D1D /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EDF9ED2A28CC68003E8D1D /* NetworkManager.swift */; };
+		D7EDF9F02A28CCA1003E8D1D /* NetworkProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EDF9EF2A28CCA0003E8D1D /* NetworkProtocol.swift */; };
+		D7EDF9F32A28CDD8003E8D1D /* ErrorMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EDF9F22A28CDD8003E8D1D /* ErrorMessage.swift */; };
+		D7EDF9F52A28D1B6003E8D1D /* Endpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EDF9F42A28D1B6003E8D1D /* Endpoints.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		D73E52312A28B8700019BC95 /* NumiaChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NumiaChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D73E52342A28B8700019BC95 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D73E52362A28B8700019BC95 /* SceneDelegate.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
-		D73E52382A28B8700019BC95 /* ViewController.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D73E52382A28B8700019BC95 /* MainScreenViewController.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = MainScreenViewController.swift; sourceTree = "<group>"; };
 		D73E523D2A28B8720019BC95 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D73E52402A28B8720019BC95 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D73E52422A28B8720019BC95 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D7EDF9ED2A28CC68003E8D1D /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		D7EDF9EF2A28CCA0003E8D1D /* NetworkProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProtocol.swift; sourceTree = "<group>"; };
+		D7EDF9F22A28CDD8003E8D1D /* ErrorMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessage.swift; sourceTree = "<group>"; };
+		D7EDF9F42A28D1B6003E8D1D /* Endpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoints.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +65,9 @@
 			isa = PBXGroup;
 			children = (
 				D75BCF742A28BBD4009855F9 /* AppSceneDelegates */,
-				D73E52382A28B8700019BC95 /* ViewController.swift */,
+				D7EDF9E92A28CB6E003E8D1D /* Screens */,
+				D7EDF9EB2A28CBF2003E8D1D /* Managers */,
+				D7EDF9F12A28CDBB003E8D1D /* Utilities */,
 				D75BCF732A28BBC6009855F9 /* Support */,
 				D73E52422A28B8720019BC95 /* Info.plist */,
 			);
@@ -80,6 +90,48 @@
 				D73E52362A28B8700019BC95 /* SceneDelegate.swift */,
 			);
 			path = AppSceneDelegates;
+			sourceTree = "<group>";
+		};
+		D7EDF9E92A28CB6E003E8D1D /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				D7EDF9EA2A28CB7D003E8D1D /* MainScreen */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		D7EDF9EA2A28CB7D003E8D1D /* MainScreen */ = {
+			isa = PBXGroup;
+			children = (
+				D73E52382A28B8700019BC95 /* MainScreenViewController.swift */,
+			);
+			path = MainScreen;
+			sourceTree = "<group>";
+		};
+		D7EDF9EB2A28CBF2003E8D1D /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				D7EDF9EC2A28CC3C003E8D1D /* Network */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		D7EDF9EC2A28CC3C003E8D1D /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				D7EDF9EF2A28CCA0003E8D1D /* NetworkProtocol.swift */,
+				D7EDF9ED2A28CC68003E8D1D /* NetworkManager.swift */,
+				D7EDF9F42A28D1B6003E8D1D /* Endpoints.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		D7EDF9F12A28CDBB003E8D1D /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				D7EDF9F22A28CDD8003E8D1D /* ErrorMessage.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -152,7 +204,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D73E52392A28B8700019BC95 /* ViewController.swift in Sources */,
+				D7EDF9EE2A28CC68003E8D1D /* NetworkManager.swift in Sources */,
+				D73E52392A28B8700019BC95 /* MainScreenViewController.swift in Sources */,
+				D7EDF9F32A28CDD8003E8D1D /* ErrorMessage.swift in Sources */,
+				D7EDF9F52A28D1B6003E8D1D /* Endpoints.swift in Sources */,
+				D7EDF9F02A28CCA1003E8D1D /* NetworkProtocol.swift in Sources */,
 				D73E52352A28B8700019BC95 /* AppDelegate.swift in Sources */,
 				D73E52372A28B8700019BC95 /* SceneDelegate.swift in Sources */,
 			);
