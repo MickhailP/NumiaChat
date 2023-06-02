@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct Message {
+struct Message: Hashable {
 		let time: String
 		let text: String
 }
