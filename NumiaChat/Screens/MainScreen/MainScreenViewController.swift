@@ -9,6 +9,7 @@ import UIKit
 
 final class MainScreenViewController: UIViewController  {
 
+		var presenter: MainScreenPresenterProtocol?
 
 		private var tableView: UITableView?
 		private var dataSource: UITableViewDiffableDataSource<Section, Message>?
@@ -16,7 +17,7 @@ final class MainScreenViewController: UIViewController  {
 		private let screenLabel = NCTitleLabel(textAlignment: .center, fontSize: 25)
 		private let chatBarView = UIView()
 
-		private var messages: [Message] = Message.examples
+		private var messages: [Message] = []
 
 		
 		override func viewDidLoad() {
@@ -28,17 +29,24 @@ final class MainScreenViewController: UIViewController  {
 
 				createDismissKeyboardTapGesture()
 				configureDataSource()
-				updateData(on: messages)
 				
 				view.backgroundColor = .systemTeal
+
+				presenter?.fetchMessages()
+
 		}
 
 
 		override func viewWillAppear(_ animated: Bool) {
 				super.viewWillAppear(animated)
 				navigationController?.isNavigationBarHidden = true
+				tableView?.reloadData()
 		}
-		
+
+		override func viewDidAppear(_ animated: Bool) {
+				super.viewDidAppear(animated)
+				print(#function)
+		}
 		
 		
 		private func configureScreenLabel() {
@@ -147,16 +155,68 @@ extension MainScreenViewController {
 						dataSource.apply(snapshot)
 				}
 		}
+
+
 }
+
+//MARK: - MainScreenProtocol
+extension MainScreenViewController: MainScreenProtocol {
+
+		func updateUI(with messages: [Message]) {
+
+				messages.reversed()
+				self.messages.append(contentsOf: messages)
+
+				if messages.isEmpty {
+						self.presenter?.hasMoreMessages = false
+						// SHOW ALERT
+
+						return
+				}
+
+				self.updateData(on: self.messages)
+				print(self.messages.count)
+		}
+
+
+		func didFinishedWithError(message: String) {
+				// SHOW ALERT
+		}
+}
+
+
 
 
 //MARK: - ChatTextfieldDelegate
 extension MainScreenViewController: ChatTextfieldDelegate {
 
 		func didTapSendButton(with message: String) {
-				print("feleate")
+				print("delegate")
 		}
 }
+
+
+//MARK: - Pagination,
+extension MainScreenViewController: UITableViewDelegate {
+
+		func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+				let offsetY = scrollView.contentOffset.y
+				let contentHeigh = scrollView.contentSize.height
+				let heigh  = scrollView.frame.size.height
+
+				if offsetY > contentHeigh - heigh {
+						guard let presenter else { return }
+
+						if presenter.hasMoreMessages, !presenter.isLoading {
+								presenter.offset += 1
+
+								presenter.fetchMessages()
+
+						}
+				}
+		}
+}
+
 
 
 //MARK: - Keyboard avoidance
