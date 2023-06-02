@@ -47,7 +47,7 @@ extension ChatTextfieldVC {
 				view.addSubview(messageTextField)
 
 				messageTextField.delegate = self
-				messageTextField.placeholder = "Message"
+				messageTextField.placeholder = "Message..."
 
 				NSLayoutConstraint.activate([
 						messageTextField.topAnchor.constraint(equalTo: view.topAnchor, constant: padding),

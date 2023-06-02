@@ -6,8 +6,18 @@
 //
 
 import Foundation
+import UIKit
 
 
 struct CellIdentifiers {
 		static let messageCell = "Message Cell"
+}
+
+struct Images{
+		static let avatarPlaceholder = UIImage(systemName: "person")
+}
+
+
+struct Paddings {
+		static let padding10: CGFloat = 10
 }
