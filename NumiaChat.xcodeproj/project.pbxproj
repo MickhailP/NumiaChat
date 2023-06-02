@@ -20,6 +20,10 @@
 		D77EE8F92A293AE80023EC07 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77EE8F82A293AE80023EC07 /* Constants.swift */; };
 		D77EE8FD2A29B4DF0023EC07 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77EE8FC2A29B4DF0023EC07 /* ImageView.swift */; };
 		D7A94F022A2A233F00835299 /* NCBodyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A94F012A2A233F00835299 /* NCBodyLabel.swift */; };
+		D7A94F042A2A255700835299 /* MainScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A94F032A2A255700835299 /* MainScreenPresenter.swift */; };
+		D7A94F062A2A2A3600835299 /* MessageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A94F052A2A2A3600835299 /* MessageResponse.swift */; };
+		D7A94F082A2A307300835299 /* DateExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A94F072A2A307200835299 /* DateExt.swift */; };
+		D7A94F0B2A2A4C0200835299 /* ModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A94F0A2A2A4C0200835299 /* ModuleBuilder.swift */; };
 		D7E33D9C2A28E44C0085D574 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E33D9B2A28E44C0085D574 /* Message.swift */; };
 		D7E33DA02A28E5B70085D574 /* ChatTextfieldVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E33D9F2A28E5B70085D574 /* ChatTextfieldVC.swift */; };
 		D7EDF9EE2A28CC68003E8D1D /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EDF9ED2A28CC68003E8D1D /* NetworkManager.swift */; };
@@ -44,6 +48,10 @@
 		D77EE8F82A293AE80023EC07 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		D77EE8FC2A29B4DF0023EC07 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		D7A94F012A2A233F00835299 /* NCBodyLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NCBodyLabel.swift; sourceTree = "<group>"; };
+		D7A94F032A2A255700835299 /* MainScreenPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainScreenPresenter.swift; path = ../../../../../../../Desktop/MainScreenPresenter.swift; sourceTree = "<group>"; };
+		D7A94F052A2A2A3600835299 /* MessageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageResponse.swift; sourceTree = "<group>"; };
+		D7A94F072A2A307200835299 /* DateExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExt.swift; sourceTree = "<group>"; };
+		D7A94F0A2A2A4C0200835299 /* ModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleBuilder.swift; sourceTree = "<group>"; };
 		D7E33D9B2A28E44C0085D574 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		D7E33D9F2A28E5B70085D574 /* ChatTextfieldVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTextfieldVC.swift; sourceTree = "<group>"; };
 		D7EDF9ED2A28CC68003E8D1D /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -139,12 +147,13 @@
 			path = Labels;
 			sourceTree = "<group>";
 		};
-		D77EE8F22A2936170023EC07 /* Extesions */ = {
+		D77EE8F22A2936170023EC07 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				D77EE8F32A2936310023EC07 /* UIViewControllerExt.swift */,
+				D7A94F072A2A307200835299 /* DateExt.swift */,
 			);
-			path = Extesions;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		D77EE8F52A293A610023EC07 /* Cells */ = {
@@ -155,10 +164,19 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		D7A94F092A2A4BEA00835299 /* ModuleBuilder */ = {
+			isa = PBXGroup;
+			children = (
+				D7A94F0A2A2A4C0200835299 /* ModuleBuilder.swift */,
+			);
+			path = ModuleBuilder;
+			sourceTree = "<group>";
+		};
 		D7E33D9A2A28E4350085D574 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				D7E33D9B2A28E44C0085D574 /* Message.swift */,
+				D7A94F052A2A2A3600835299 /* MessageResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -187,6 +205,7 @@
 		D7EDF9E92A28CB6E003E8D1D /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				D7A94F092A2A4BEA00835299 /* ModuleBuilder */,
 				D7EDF9EA2A28CB7D003E8D1D /* MainScreen */,
 			);
 			path = Screens;
@@ -196,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				D73E52382A28B8700019BC95 /* MainScreenViewController.swift */,
+				D7A94F032A2A255700835299 /* MainScreenPresenter.swift */,
 			);
 			path = MainScreen;
 			sourceTree = "<group>";
@@ -223,7 +243,7 @@
 			children = (
 				D7EDF9F22A28CDD8003E8D1D /* ErrorMessage.swift */,
 				D77EE8F82A293AE80023EC07 /* Constants.swift */,
-				D77EE8F22A2936170023EC07 /* Extesions */,
+				D77EE8F22A2936170023EC07 /* Extensions */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -305,13 +325,17 @@
 				D7EDF9F32A28CDD8003E8D1D /* ErrorMessage.swift in Sources */,
 				D77EE8F92A293AE80023EC07 /* Constants.swift in Sources */,
 				D7E33DA02A28E5B70085D574 /* ChatTextfieldVC.swift in Sources */,
+				D7A94F082A2A307300835299 /* DateExt.swift in Sources */,
 				D7EDF9F52A28D1B6003E8D1D /* Endpoints.swift in Sources */,
 				D77EE8FD2A29B4DF0023EC07 /* ImageView.swift in Sources */,
 				D7A94F022A2A233F00835299 /* NCBodyLabel.swift in Sources */,
+				D7A94F0B2A2A4C0200835299 /* ModuleBuilder.swift in Sources */,
 				D7EDF9F02A28CCA1003E8D1D /* NetworkProtocol.swift in Sources */,
+				D7A94F042A2A255700835299 /* MainScreenPresenter.swift in Sources */,
 				D7E33D9C2A28E44C0085D574 /* Message.swift in Sources */,
 				D77EE8F12A2929180023EC07 /* NCTitleLabel.swift in Sources */,
 				D73E52352A28B8700019BC95 /* AppDelegate.swift in Sources */,
+				D7A94F062A2A2A3600835299 /* MessageResponse.swift in Sources */,
 				D77EE8EA2A2922E30023EC07 /* NCTextField.swift in Sources */,
 				D73E52372A28B8700019BC95 /* SceneDelegate.swift in Sources */,
 				D77EE8F72A293A830023EC07 /* MessageCell.swift in Sources */,
