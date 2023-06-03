@@ -14,7 +14,7 @@ protocol ChatTextfieldDelegate: AnyObject {
 
 final class ChatTextfieldVC: UIViewController {
 
-		weak var delegate: ChatTextfieldDelegate?
+		weak var delegate: ChatTextfieldDelegate? 
 
 		let messageTextField = NCTextField()
 		let sendButton = NCSendButton()

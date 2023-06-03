@@ -17,4 +17,20 @@ extension UIViewController {
 				containerView.layer.masksToBounds = true
 		}
 
+
+		func displayAlert(with title: String, message: String, actions: [UIAlertAction]? = nil) {
+				DispatchQueue.main.async {
+						guard self.presentedViewController == nil else {
+								return
+						}
+
+						let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+						actions?.forEach { action in
+								alertController.addAction(action)
+						}
+
+
+						self.present(alertController, animated: true)
+				}
+		}
 }
