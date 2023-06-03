@@ -32,7 +32,7 @@ final class MainScreenViewController: UIViewController  {
 				configureEmptyStateView()
 				configureTableView()
 
-				createDismissKeyboardTapGesture()
+				hideKeyboardWhenTappedAround()
 				configureDataSource()
 
 				tableView.isHidden = true
@@ -48,9 +48,6 @@ final class MainScreenViewController: UIViewController  {
 				super.viewWillAppear(animated)
 				navigationController?.isNavigationBarHidden = true
 		}
-
-
-
 }
 
 
@@ -65,7 +62,6 @@ extension MainScreenViewController {
 		func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 				let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.messageCell, for: indexPath) as! MessageCell
 				cell.setCell(with: messages[indexPath.row])
-
 				return cell
 		}
 }
@@ -97,7 +93,7 @@ extension MainScreenViewController {
 
 				DispatchQueue.main.async {
 						guard let dataSource = self.dataSource else { return }
-						dataSource.apply(snapshot, animatingDifferences: true)
+						dataSource.apply(snapshot, animatingDifferences: false)
 
 				}
 		}
@@ -108,6 +104,9 @@ extension MainScreenViewController {
 extension MainScreenViewController: MainScreenProtocol {
 
 		func updateUI(with messages: [Message]) {
+
+
+				lastCellIndex = messages.count
 
 				self.messages.insert(contentsOf: messages.reversed(), at: 0)
 
@@ -127,6 +126,7 @@ extension MainScreenViewController: MainScreenProtocol {
 				if shouldScrollToBottom {
 						scrollToBottom()
 				}
+				stayAtCell()
 		}
 
 
@@ -149,7 +149,7 @@ extension MainScreenViewController: MainScreenProtocol {
 
 
 //MARK: - Pagination
-extension MainScreenViewController: UITableViewDelegate {
+extension MainScreenViewController {
 
 		func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
 				let position = scrollView.contentOffset.y
@@ -159,9 +159,9 @@ extension MainScreenViewController: UITableViewDelegate {
 
 						if presenter.hasMoreMessages, !presenter.isLoading {
 								presenter.offset += 1
-						print(lastCellIndex)
 								presenter.fetchMessages()
 								shouldScrollToBottom = false
+
 						}
 				}
 		}
@@ -170,8 +170,25 @@ extension MainScreenViewController: UITableViewDelegate {
 		private func scrollToBottom() {
 				DispatchQueue.main.async {
 						let bottomRow = IndexPath(row: self.messages.count - 1, section: 0)
-						self.tableView.scrollToRow(at: bottomRow, at: .bottom, animated: true)
+						self.tableView.scrollToRow(at: bottomRow, at: .top, animated: true)
 				}
+		}
+
+		private func stayAtCell() {
+				DispatchQueue.main.async {
+
+						let current = IndexPath(row: self.lastCellIndex - 1, section: 0)
+						print("ROW: \(current)")
+						self.tableView.scrollToRow(at: current, at: .top, animated: false)
+				}
+		}
+}
+
+
+//MARK: - UITableViewDelegate
+extension MainScreenViewController: UITableViewDelegate {
+		func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+				print(indexPath)
 		}
 }
 
@@ -179,6 +196,7 @@ extension MainScreenViewController: UITableViewDelegate {
 //MARK: - SubViews configurations
 
 extension MainScreenViewController {
+
 		private func configureScreenLabel() {
 				view.addSubview(screenLabel)
 				screenLabel.text = "Тестовое задание"
@@ -188,7 +206,7 @@ extension MainScreenViewController {
 						screenLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Paddings.padding10),
 						screenLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Paddings.padding10),
 						screenLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -Paddings.padding10),
-						screenLabel.heightAnchor.constraint(equalToConstant: 70)
+						screenLabel.heightAnchor.constraint(equalToConstant: 50)
 				])
 		}
 
@@ -202,6 +220,7 @@ extension MainScreenViewController {
 				view.addSubview(tableView)
 
 				tableView.translatesAutoresizingMaskIntoConstraints = false
+
 
 				NSLayoutConstraint.activate([
 						tableView.topAnchor.constraint(equalTo: screenLabel.bottomAnchor),
@@ -241,12 +260,6 @@ extension MainScreenViewController {
 						emptyStateView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
 						emptyStateView.bottomAnchor.constraint(equalTo: chatBarView.topAnchor)
 				])
-		}
-
-
-		private func createDismissKeyboardTapGesture() {
-				let tap = UITapGestureRecognizer(target: view, action: #selector(view.endEditing(_:)))
-				view.addGestureRecognizer(tap)
 		}
 }
 

@@ -74,7 +74,8 @@ extension ChatTextfieldVC {
 
 		@objc func sendButtonTapped() {
 				print("button tapped")
-				if let message = messageTextField.text {
+				if let message = messageTextField.text,
+					 !message.isEmpty {
 						delegate?.didTapSendButton(with: message)
 						messageTextField.text = ""
 				}

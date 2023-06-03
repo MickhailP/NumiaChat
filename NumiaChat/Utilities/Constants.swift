@@ -10,7 +10,7 @@ import UIKit
 
 
 struct CellIdentifiers {
-		static let messageCell = "Message Cell"
+		static let messageCell = "MessageCell"
 }
 
 struct Images{
