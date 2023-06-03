@@ -9,27 +9,34 @@ import UIKit
 
 final class MainScreenViewController: UIViewController  {
 
-		var presenter: MainScreenPresenterProtocol?
+		var presenter: MainScreenPresenterProtocol? 
 
-		private var tableView: UITableView?
+		private var tableView = UITableView(frame: .zero, style: .plain)
 		private var dataSource: UITableViewDiffableDataSource<Section, Message>?
 		
 		private let screenLabel = NCTitleLabel(textAlignment: .center, fontSize: 25)
 		private let chatBarView = UIView()
 
+		private let emptyStateView = EmptyView(message: "Seems the chat is empty. Try to send a message.")
+
 		private var messages: [Message] = []
 
+		var shouldScrollToBottom = true
+		var lastCellIndex = 0
 		
 		override func viewDidLoad() {
 				super.viewDidLoad()
 
 				configureScreenLabel()
 				configureTextFieldView()
+				configureEmptyStateView()
 				configureTableView()
 
 				createDismissKeyboardTapGesture()
 				configureDataSource()
-				
+
+				tableView.isHidden = true
+
 				view.backgroundColor = .systemTeal
 
 				presenter?.fetchMessages()
@@ -40,71 +47,10 @@ final class MainScreenViewController: UIViewController  {
 		override func viewWillAppear(_ animated: Bool) {
 				super.viewWillAppear(animated)
 				navigationController?.isNavigationBarHidden = true
-				tableView?.reloadData()
-		}
-
-		override func viewDidAppear(_ animated: Bool) {
-				super.viewDidAppear(animated)
-				print(#function)
-		}
-		
-		
-		private func configureScreenLabel() {
-				view.addSubview(screenLabel)
-				screenLabel.text = "Тестовое задание"
-				screenLabel.textColor = .white
-				
-				NSLayoutConstraint.activate([
-						screenLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Paddings.padding10),
-						screenLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Paddings.padding10),
-						screenLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -Paddings.padding10),
-						screenLabel.heightAnchor.constraint(equalToConstant: 70)
-				])
-		}
-		
-
-		private func configureTableView() {
-				tableView = UITableView(frame: view.bounds, style: .plain)
-				guard let tableView else { return }
-
-				tableView.register(MessageCell.self, forCellReuseIdentifier: CellIdentifiers.messageCell)
-				tableView.separatorStyle = .none
-
-				view.addSubview(tableView)
-
-				tableView.translatesAutoresizingMaskIntoConstraints = false
-
-				NSLayoutConstraint.activate([
-						tableView.topAnchor.constraint(equalTo: screenLabel.bottomAnchor),
-						tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-						tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-						tableView.bottomAnchor.constraint(equalTo: chatBarView.topAnchor)
-				])
 		}
 
 
-		private func configureTextFieldView() {
 
-				let textFieldVC = ChatTextfieldVC(delegate: self)
-				add(childVC: textFieldVC, to: chatBarView)
-
-				view.addSubview(chatBarView)
-				chatBarView.translatesAutoresizingMaskIntoConstraints = false
-
-
-				NSLayoutConstraint.activate([
-						chatBarView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Paddings.padding10),
-						chatBarView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Paddings.padding10),
-						chatBarView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -Paddings.padding10),
-						chatBarView.heightAnchor.constraint(equalToConstant: 70)
-				])
-		}
-
-		
-		private func createDismissKeyboardTapGesture(){
-				let tap = UITapGestureRecognizer(target: view, action: #selector(view.endEditing(_:)))
-				view.addGestureRecognizer(tap)
-		}
 }
 
 
@@ -135,7 +81,6 @@ extension MainScreenViewController {
 
 
 		private func configureDataSource() {
-				guard let tableView else { return }
 
 				dataSource = UITableViewDiffableDataSource<Section, Message> (tableView: tableView, cellProvider: { tableView, indexPath, message in
 						let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.messageCell, for: indexPath) as! MessageCell
@@ -148,72 +93,160 @@ extension MainScreenViewController {
 		private func updateData(on messages: [Message]) {
 				var snapshot = NSDiffableDataSourceSnapshot<Section, Message>()
 				snapshot.appendSections([.main])
-				snapshot.appendItems(messages)
+				snapshot.appendItems(messages, toSection: .main)
 
 				DispatchQueue.main.async {
 						guard let dataSource = self.dataSource else { return }
-						dataSource.apply(snapshot)
+						dataSource.apply(snapshot, animatingDifferences: true)
+
 				}
 		}
-
-
 }
+
 
 //MARK: - MainScreenProtocol
 extension MainScreenViewController: MainScreenProtocol {
 
 		func updateUI(with messages: [Message]) {
 
-				messages.reversed()
-				self.messages.append(contentsOf: messages)
+				self.messages.insert(contentsOf: messages.reversed(), at: 0)
 
 				if messages.isEmpty {
 						self.presenter?.hasMoreMessages = false
-						// SHOW ALERT
-
+						let action = UIAlertAction(title: "ok", style: .default)
+						displayAlert(with: "Info", message: "There are not more messages", actions: [action])
 						return
 				}
 
+				tableView.isHidden = false
+				emptyStateView.isHidden = true
+
+				updateData(on: self.messages)
+
+
+				if shouldScrollToBottom {
+						scrollToBottom()
+				}
+		}
+
+
+		func send(new message: Message) {
+				messages.append(message)
 				self.updateData(on: self.messages)
-				print(self.messages.count)
+				scrollToBottom()
 		}
 
 
-		func didFinishedWithError(message: String) {
+		func didFinishedFetchingWithError(message: String) {
 				// SHOW ALERT
+				let action = UIAlertAction(title: "Try again", style: .default) { _ in
+						self.presenter?.fetchMessages()
+				}
+				displayAlert(with: "Error occurred", message: message, actions: [action])
 		}
 }
 
 
 
-
-//MARK: - ChatTextfieldDelegate
-extension MainScreenViewController: ChatTextfieldDelegate {
-
-		func didTapSendButton(with message: String) {
-				print("delegate")
-		}
-}
-
-
-//MARK: - Pagination,
+//MARK: - Pagination
 extension MainScreenViewController: UITableViewDelegate {
 
 		func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-				let offsetY = scrollView.contentOffset.y
-				let contentHeigh = scrollView.contentSize.height
-				let heigh  = scrollView.frame.size.height
+				let position = scrollView.contentOffset.y
 
-				if offsetY > contentHeigh - heigh {
+				if position < 100 {
 						guard let presenter else { return }
 
 						if presenter.hasMoreMessages, !presenter.isLoading {
 								presenter.offset += 1
-
+						print(lastCellIndex)
 								presenter.fetchMessages()
-
+								shouldScrollToBottom = false
 						}
 				}
+		}
+
+
+		private func scrollToBottom() {
+				DispatchQueue.main.async {
+						let bottomRow = IndexPath(row: self.messages.count - 1, section: 0)
+						self.tableView.scrollToRow(at: bottomRow, at: .bottom, animated: true)
+				}
+		}
+}
+
+
+//MARK: - SubViews configurations
+
+extension MainScreenViewController {
+		private func configureScreenLabel() {
+				view.addSubview(screenLabel)
+				screenLabel.text = "Тестовое задание"
+				screenLabel.textColor = .white
+
+				NSLayoutConstraint.activate([
+						screenLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Paddings.padding10),
+						screenLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Paddings.padding10),
+						screenLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -Paddings.padding10),
+						screenLabel.heightAnchor.constraint(equalToConstant: 70)
+				])
+		}
+
+
+		private func configureTableView() {
+
+				tableView.register(MessageCell.self, forCellReuseIdentifier: CellIdentifiers.messageCell)
+				tableView.separatorStyle = .none
+				tableView.delegate = self
+
+				view.addSubview(tableView)
+
+				tableView.translatesAutoresizingMaskIntoConstraints = false
+
+				NSLayoutConstraint.activate([
+						tableView.topAnchor.constraint(equalTo: screenLabel.bottomAnchor),
+						tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+						tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+						tableView.bottomAnchor.constraint(equalTo: chatBarView.topAnchor)
+				])
+		}
+
+
+		private func configureTextFieldView() {
+
+				guard let presenter else { return }
+
+				let textFieldVC = ChatTextfieldVC(delegate: presenter)
+				add(childVC: textFieldVC, to: chatBarView)
+
+				view.addSubview(chatBarView)
+				chatBarView.translatesAutoresizingMaskIntoConstraints = false
+
+
+				NSLayoutConstraint.activate([
+						chatBarView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Paddings.padding10),
+						chatBarView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Paddings.padding10),
+						chatBarView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -Paddings.padding10),
+						chatBarView.heightAnchor.constraint(equalToConstant: 70)
+				])
+		}
+
+		private func configureEmptyStateView() {
+				view.addSubview(emptyStateView)
+
+
+				NSLayoutConstraint.activate([
+						emptyStateView.topAnchor.constraint(equalTo: screenLabel.bottomAnchor),
+						emptyStateView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+						emptyStateView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+						emptyStateView.bottomAnchor.constraint(equalTo: chatBarView.topAnchor)
+				])
+		}
+
+
+		private func createDismissKeyboardTapGesture() {
+				let tap = UITapGestureRecognizer(target: view, action: #selector(view.endEditing(_:)))
+				view.addGestureRecognizer(tap)
 		}
 }
 
