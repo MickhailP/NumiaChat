@@ -9,8 +9,7 @@ import UIKit
 
 final class MessageCell: UITableViewCell {
 
-		let stackContainer = UIStackView()
-		let messageContainer = UIView()
+		let messageContainer = MessageContainer(frame: .zero)
 
 		let messageText: UILabel = NCBodyLabel()
 		let avatarImage = NCImageView(placeholder: Images.avatarPlaceholder)
@@ -33,7 +32,7 @@ final class MessageCell: UITableViewCell {
 
 
 		private func configureCell() {
-				configureStackView()
+//				configureStackView()
 				configureImage()
 				configureMessageContainer()
 				setupLabel()
@@ -41,24 +40,7 @@ final class MessageCell: UITableViewCell {
 				contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 60).isActive = true
 		}
 
-
-		private func configureStackView() {
-				contentView.addSubview(stackContainer)
-				stackContainer.translatesAutoresizingMaskIntoConstraints = false
-				stackContainer.axis = .horizontal
-				stackContainer.distribution = .fill
-				stackContainer.spacing = 20
-
-
-				NSLayoutConstraint.activate([
-						stackContainer.topAnchor.constraint(equalTo: contentView.topAnchor),
-						stackContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-						stackContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-						stackContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-				])
-		}
-
-
+		
 		private func setupLabel() {
 				contentView.addSubview(messageText)
 
@@ -73,13 +55,13 @@ final class MessageCell: UITableViewCell {
 
 
 		private func configureImage() {
-				stackContainer.addSubview(avatarImage)
+				contentView.addSubview(avatarImage)
 				avatarImage.layer.cornerRadius = 20
 				avatarImage.clipsToBounds = true
 
 				NSLayoutConstraint.activate([
-						avatarImage.topAnchor.constraint(equalTo: stackContainer.topAnchor, constant: Paddings.padding10),
-						avatarImage.trailingAnchor.constraint(equalTo: stackContainer.trailingAnchor, constant:  -Paddings.padding10),
+						avatarImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Paddings.padding10),
+						avatarImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant:  -Paddings.padding10),
 						avatarImage.widthAnchor.constraint(equalToConstant: 40),
 						avatarImage.heightAnchor.constraint(equalToConstant: 40)
 				])
@@ -87,16 +69,13 @@ final class MessageCell: UITableViewCell {
 
 		
 		private func configureMessageContainer() {
-				stackContainer.addSubview(messageContainer)
-				messageContainer.translatesAutoresizingMaskIntoConstraints = false
-				messageContainer.layer.cornerRadius = 10
-				messageContainer.backgroundColor = .secondarySystemBackground
+				contentView.addSubview(messageContainer)
 
 				NSLayoutConstraint.activate([
-						messageContainer.topAnchor.constraint(equalTo: stackContainer.topAnchor, constant: Paddings.padding10),
-						messageContainer.leadingAnchor.constraint(equalTo: stackContainer.leadingAnchor, constant: Paddings.padding10),
+						messageContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Paddings.padding10),
+						messageContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Paddings.padding10),
 						messageContainer.trailingAnchor.constraint(equalTo: avatarImage.leadingAnchor, constant: -Paddings.padding10),
-						messageContainer.bottomAnchor.constraint(equalTo: stackContainer.bottomAnchor, constant: -Paddings.padding10),
+						messageContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Paddings.padding10),
 				])
 		}
 

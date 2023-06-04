@@ -20,4 +20,5 @@ struct Images{
 
 struct Paddings {
 		static let padding10: CGFloat = 10
+		static let padding20: CGFloat = 20
 }

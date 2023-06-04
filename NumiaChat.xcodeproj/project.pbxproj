@@ -25,6 +25,11 @@
 		D7A94F062A2A2A3600835299 /* MessageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A94F052A2A2A3600835299 /* MessageResponse.swift */; };
 		D7A94F082A2A307300835299 /* DateExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A94F072A2A307200835299 /* DateExt.swift */; };
 		D7A94F0B2A2A4C0200835299 /* ModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A94F0A2A2A4C0200835299 /* ModuleBuilder.swift */; };
+		D7AE408A2A2C924100FEB944 /* DetailMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AE40892A2C924100FEB944 /* DetailMessageVC.swift */; };
+		D7AE408C2A2C93B800FEB944 /* UserInfoHeaderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AE408B2A2C93B800FEB944 /* UserInfoHeaderVC.swift */; };
+		D7C96DEC2A2CCF970051CD49 /* MessageContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C96DEB2A2CCF970051CD49 /* MessageContainer.swift */; };
+		D7C96DEF2A2CE2FE0051CD49 /* UserDefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C96DEE2A2CE2FE0051CD49 /* UserDefaultsKeys.swift */; };
+		D7C96DF12A2CE33E0051CD49 /* MessengerDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C96DF02A2CE33E0051CD49 /* MessengerDataService.swift */; };
 		D7D2D8832A2B9E0A00736484 /* DataLoadingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D2D8822A2B9E0A00736484 /* DataLoadingVC.swift */; };
 		D7E33D9C2A28E44C0085D574 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E33D9B2A28E44C0085D574 /* Message.swift */; };
 		D7E33DA02A28E5B70085D574 /* ChatTextfieldVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E33D9F2A28E5B70085D574 /* ChatTextfieldVC.swift */; };
@@ -55,6 +60,11 @@
 		D7A94F052A2A2A3600835299 /* MessageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageResponse.swift; sourceTree = "<group>"; };
 		D7A94F072A2A307200835299 /* DateExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExt.swift; sourceTree = "<group>"; };
 		D7A94F0A2A2A4C0200835299 /* ModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleBuilder.swift; sourceTree = "<group>"; };
+		D7AE40892A2C924100FEB944 /* DetailMessageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMessageVC.swift; sourceTree = "<group>"; };
+		D7AE408B2A2C93B800FEB944 /* UserInfoHeaderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserInfoHeaderVC.swift; path = ../../../../../../../Desktop/UserInfoHeaderVC.swift; sourceTree = "<group>"; };
+		D7C96DEB2A2CCF970051CD49 /* MessageContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageContainer.swift; sourceTree = "<group>"; };
+		D7C96DEE2A2CE2FE0051CD49 /* UserDefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKeys.swift; sourceTree = "<group>"; };
+		D7C96DF02A2CE33E0051CD49 /* MessengerDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerDataService.swift; sourceTree = "<group>"; };
 		D7D2D8822A2B9E0A00736484 /* DataLoadingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoadingVC.swift; sourceTree = "<group>"; };
 		D7E33D9B2A28E44C0085D574 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		D7E33D9F2A28E5B70085D574 /* ChatTextfieldVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTextfieldVC.swift; sourceTree = "<group>"; };
@@ -173,6 +183,7 @@
 			children = (
 				D77EE8FC2A29B4DF0023EC07 /* ImageView.swift */,
 				D79B8C7D2A2B5595003786F0 /* EmptyView.swift */,
+				D7C96DEB2A2CCF970051CD49 /* MessageContainer.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -183,6 +194,15 @@
 				D7A94F0A2A2A4C0200835299 /* ModuleBuilder.swift */,
 			);
 			path = ModuleBuilder;
+			sourceTree = "<group>";
+		};
+		D7C96DED2A2CE2D10051CD49 /* DataServices */ = {
+			isa = PBXGroup;
+			children = (
+				D7C96DEE2A2CE2FE0051CD49 /* UserDefaultsKeys.swift */,
+				D7C96DF02A2CE33E0051CD49 /* MessengerDataService.swift */,
+			);
+			path = DataServices;
 			sourceTree = "<group>";
 		};
 		D7E33D9A2A28E4350085D574 /* Models */ = {
@@ -212,6 +232,7 @@
 			children = (
 				D7E33D9F2A28E5B70085D574 /* ChatTextfieldVC.swift */,
 				D7D2D8822A2B9E0A00736484 /* DataLoadingVC.swift */,
+				D7AE408B2A2C93B800FEB944 /* UserInfoHeaderVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -221,6 +242,7 @@
 			children = (
 				D7A94F092A2A4BEA00835299 /* ModuleBuilder */,
 				D7EDF9EA2A28CB7D003E8D1D /* MainScreen */,
+				D7AE40892A2C924100FEB944 /* DetailMessageVC.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -237,6 +259,7 @@
 		D7EDF9EB2A28CBF2003E8D1D /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				D7C96DED2A2CE2D10051CD49 /* DataServices */,
 				D7EDF9EC2A28CC3C003E8D1D /* Network */,
 			);
 			path = Managers;
@@ -335,9 +358,13 @@
 				D77EE8F42A2936310023EC07 /* UIViewControllerExt.swift in Sources */,
 				D7EDF9EE2A28CC68003E8D1D /* NetworkManager.swift in Sources */,
 				D79B8C7E2A2B5595003786F0 /* EmptyView.swift in Sources */,
+				D7C96DEC2A2CCF970051CD49 /* MessageContainer.swift in Sources */,
+				D7C96DEF2A2CE2FE0051CD49 /* UserDefaultsKeys.swift in Sources */,
 				D73E52392A28B8700019BC95 /* MainScreenViewController.swift in Sources */,
+				D7AE408C2A2C93B800FEB944 /* UserInfoHeaderVC.swift in Sources */,
 				D77EE8EE2A2924F80023EC07 /* NCSendButton.swift in Sources */,
 				D7EDF9F32A28CDD8003E8D1D /* ErrorMessage.swift in Sources */,
+				D7C96DF12A2CE33E0051CD49 /* MessengerDataService.swift in Sources */,
 				D77EE8F92A293AE80023EC07 /* Constants.swift in Sources */,
 				D7E33DA02A28E5B70085D574 /* ChatTextfieldVC.swift in Sources */,
 				D7A94F082A2A307300835299 /* DateExt.swift in Sources */,
@@ -349,6 +376,7 @@
 				D7A94F042A2A255700835299 /* MainScreenPresenter.swift in Sources */,
 				D7E33D9C2A28E44C0085D574 /* Message.swift in Sources */,
 				D77EE8F12A2929180023EC07 /* NCTitleLabel.swift in Sources */,
+				D7AE408A2A2C924100FEB944 /* DetailMessageVC.swift in Sources */,
 				D73E52352A28B8700019BC95 /* AppDelegate.swift in Sources */,
 				D7A94F062A2A2A3600835299 /* MessageResponse.swift in Sources */,
 				D77EE8EA2A2922E30023EC07 /* NCTextField.swift in Sources */,

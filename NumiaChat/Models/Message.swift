@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct Message: Hashable {
+struct Message: Hashable, Codable {
 		let time: Date
 		let text: String
 		let avatarURL: String

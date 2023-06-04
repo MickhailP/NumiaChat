@@ -47,6 +47,11 @@ final class MainScreenViewController: UIViewController  {
 
 		override func viewWillAppear(_ animated: Bool) {
 				super.viewWillAppear(animated)
+
+		}
+
+		override func viewDidAppear(_ animated: Bool) {
+				super.viewDidAppear(animated)
 				navigationController?.isNavigationBarHidden = true
 		}
 
@@ -191,8 +196,12 @@ extension MainScreenViewController {
 
 //MARK: - UITableViewDelegate
 extension MainScreenViewController: UITableViewDelegate {
+
 		func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-				print(indexPath)
+				let message = messages[indexPath.row]
+
+				let destVC = ModuleBuilder().buildDetailMessageVC(with: message)
+				navigationController?.pushViewController(destVC, animated: true)
 		}
 }
 

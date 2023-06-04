@@ -21,4 +21,8 @@ final class ModuleBuilder: Builder {
 				vc.presenter = presenter
 				return vc
 		}
+
+		func buildDetailMessageVC(with message: Message) -> UIViewController {
+				DetailMessageVC(message: message)
+		}
 }
