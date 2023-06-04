@@ -23,30 +23,36 @@ final class MainScreenViewController: UIViewController  {
 
 		var shouldScrollToBottom = true
 		var lastCellIndex = 0
+
+		var chatViewBottomConstraint: NSLayoutConstraint?
 		
 		override func viewDidLoad() {
 				super.viewDidLoad()
 
+				view.backgroundColor = .systemTeal
+
 				configureScreenLabel()
-				configureTextFieldView()
+				configureChatBarView()
 				configureEmptyStateView()
 				configureTableView()
 
 				hideKeyboardWhenTappedAround()
 				configureDataSource()
 
-				tableView.isHidden = true
-
-				view.backgroundColor = .systemTeal
+				setNotificationForKeyboardAppearance()
 
 				presenter?.fetchMessages()
-
 		}
 
 
 		override func viewWillAppear(_ animated: Bool) {
 				super.viewWillAppear(animated)
 				navigationController?.isNavigationBarHidden = true
+		}
+
+		override func viewWillDisappear(_ animated: Bool) {
+				super.viewWillDisappear(animated)
+				removeNotificationsForKeyboardAppearance()
 		}
 }
 
@@ -65,7 +71,6 @@ extension MainScreenViewController {
 				return cell
 		}
 }
-
 
 
 //MARK: - DataSource configuration
@@ -147,8 +152,7 @@ extension MainScreenViewController: MainScreenProtocol {
 }
 
 
-
-//MARK: - Pagination
+//MARK: - Pagination, Scrolling
 extension MainScreenViewController {
 
 		func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -216,7 +220,7 @@ extension MainScreenViewController {
 				tableView.register(MessageCell.self, forCellReuseIdentifier: CellIdentifiers.messageCell)
 				tableView.separatorStyle = .none
 				tableView.delegate = self
-
+				tableView.isHidden = true
 				view.addSubview(tableView)
 
 				tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -231,7 +235,7 @@ extension MainScreenViewController {
 		}
 
 
-		private func configureTextFieldView() {
+		private func configureChatBarView() {
 
 				guard let presenter else { return }
 
@@ -241,11 +245,12 @@ extension MainScreenViewController {
 				view.addSubview(chatBarView)
 				chatBarView.translatesAutoresizingMaskIntoConstraints = false
 
+				chatViewBottomConstraint = chatBarView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Paddings.padding10)
 
 				NSLayoutConstraint.activate([
-						chatBarView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Paddings.padding10),
 						chatBarView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Paddings.padding10),
 						chatBarView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -Paddings.padding10),
+						chatViewBottomConstraint!,
 						chatBarView.heightAnchor.constraint(equalToConstant: 70)
 				])
 		}
@@ -266,26 +271,18 @@ extension MainScreenViewController {
 
 
 //MARK: - Keyboard avoidance
-//extension MainScreenViewController {
-//		private func setNotificationForKeyboardAppearance() {
-//				NotificationCenter.default.addObserver(
-//						self,
-//						selector: #selector(self.keyboardWillShow),
-//						name: UIResponder.keyboardWillShowNotification,
-//						object: nil)
-//
-//				NotificationCenter.default.addObserver(
-//						self,
-//						selector: #selector(self.keyboardWillHide),
-//						name: UIResponder.keyboardWillHideNotification,
-//						object: nil)
-//		}
-//
-//		@objc func keyboardWillShow(_ notification: NSNotification) {
-//				// Add code later...
-//		}
-//
-//		@objc func keyboardWillHide(_ notification: NSNotification) {
-//				// Add code later...
-//		}
-//}
+extension MainScreenViewController {
+
+		@objc override func keyboardWillShow(_ notification: NSNotification) {
+					if let chatViewBottomConstraint	{
+						moveViewWithKeyboard(notification: notification, viewBottomConstraint: chatViewBottomConstraint, keyboardWillShow: true, action: scrollToBottom)
+				}
+		}
+
+
+		@objc override func keyboardWillHide(_ notification: NSNotification) {
+				if let chatViewBottomConstraint{
+						moveViewWithKeyboard(notification: notification, viewBottomConstraint: chatViewBottomConstraint, keyboardWillShow: false)
+				}
+		}
+}
