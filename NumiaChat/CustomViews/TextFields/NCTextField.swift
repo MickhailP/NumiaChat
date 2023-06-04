@@ -24,7 +24,7 @@ final class NCTextField: UITextField {
 		private func configure() {
 				translatesAutoresizingMaskIntoConstraints = false
 
-				layer.cornerRadius = 10
+				layer.cornerRadius = 15
 
 				textColor = .label
 				font = UIFont.preferredFont(forTextStyle: .body)
@@ -38,7 +38,7 @@ final class NCTextField: UITextField {
 		}
 
 		
-		let padding = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+		let padding = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
 
 
 		override public func textRect(forBounds bounds: CGRect) -> CGRect {

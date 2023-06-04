@@ -19,7 +19,8 @@ final class ChatTextfieldVC: UIViewController {
 		let messageTextField = NCTextField()
 		let sendButton = NCSendButton()
 
-		let padding: CGFloat = 10
+		var message = ""
+
 
 		init(delegate: ChatTextfieldDelegate) {
 				super.init(nibName: nil, bundle: nil)
@@ -50,10 +51,10 @@ extension ChatTextfieldVC {
 				messageTextField.placeholder = "Message..."
 
 				NSLayoutConstraint.activate([
-						messageTextField.topAnchor.constraint(equalTo: view.topAnchor, constant: padding),
-						messageTextField.heightAnchor.constraint(equalToConstant: 40),
-						messageTextField.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -padding),
-						messageTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+						messageTextField.topAnchor.constraint(equalTo: view.topAnchor, constant: Paddings.padding10),
+						messageTextField.bottomAnchor.constraint(equalTo: view.bottomAnchor,constant: -Paddings.padding10),
+						messageTextField.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -Paddings.padding10),
+						messageTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Paddings.padding10),
 				])
 		}
 
@@ -64,8 +65,8 @@ extension ChatTextfieldVC {
 				sendButton.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
 
 				NSLayoutConstraint.activate([
-						sendButton.topAnchor.constraint(equalTo: view.topAnchor, constant: padding),
-						sendButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+						sendButton.topAnchor.constraint(equalTo: view.topAnchor, constant: Paddings.padding10),
+						sendButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Paddings.padding10),
 						sendButton.heightAnchor.constraint(equalToConstant: 40),
 						sendButton.widthAnchor.constraint(equalToConstant: 40)
 				])
@@ -73,11 +74,8 @@ extension ChatTextfieldVC {
 
 
 		@objc func sendButtonTapped() {
-				print("button tapped")
-				if let message = messageTextField.text,
-					 !message.isEmpty {
+				if checkOutText(from: messageTextField) {
 						delegate?.didTapSendButton(with: message)
-						messageTextField.text = ""
 				}
 		}
 }
@@ -87,13 +85,23 @@ extension ChatTextfieldVC {
 extension ChatTextfieldVC: UITextFieldDelegate {
 
 		func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-				print("return tapped")
-				if let message = textField.text {
+
+				if checkOutText(from: textField) {
 						delegate?.didTapSendButton(with: message)
-						textField.text = ""
 				}
 
 				textField.resignFirstResponder()
 				return true
+		}
+
+		private func checkOutText(from textField: UITextField) -> Bool {
+				if let message = textField.text,
+					 !message.isEmpty {
+						self.message = message
+						textField.text = ""
+						return true
+				} else {
+						return false
+				}
 		}
 }
