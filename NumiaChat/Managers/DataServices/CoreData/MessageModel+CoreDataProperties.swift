@@ -21,6 +21,18 @@ extension MessageModel {
     @NSManaged public var text: String?
     @NSManaged public var avatarURL: String?
 
+		var wrappedTime: Date {
+				time ?? Date()
+		}
+
+		var wrappedText: String {
+				text ?? "Unknown"
+		}
+
+		var wrappedAvatarURL: String {
+				avatarURL ?? "Unknown"
+		}
+
 }
 
 extension MessageModel : Identifiable {

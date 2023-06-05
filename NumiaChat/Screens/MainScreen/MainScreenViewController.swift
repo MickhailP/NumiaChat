@@ -9,7 +9,7 @@ import UIKit
 
 final class MainScreenViewController: UIViewController  {
 
-		var presenter: MainScreenPresenterProtocol? 
+		var presenter: MainScreenPresenterProtocol?
 
 		private var tableView = UITableView(frame: .zero, style: .plain)
 		private var dataSource: UITableViewDiffableDataSource<Section, Message>?
@@ -41,6 +41,7 @@ final class MainScreenViewController: UIViewController  {
 
 				setNotificationForKeyboardAppearance()
 
+				presenter?.getLocalMessagesFromDataBase()
 				presenter?.fetchMessages()
 		}
 
@@ -115,13 +116,11 @@ extension MainScreenViewController: MainScreenProtocol {
 
 		func updateUI(with messages: [Message]) {
 
-
 				lastCellIndex = messages.count
 
 				self.messages.insert(contentsOf: messages.reversed(), at: 0)
 
 				if messages.isEmpty {
-						self.presenter?.hasMoreMessages = false
 						let action = UIAlertAction(title: "ok", style: .default)
 						displayAlert(with: "Info", message: "There are not more messages", actions: [action])
 						return
@@ -129,20 +128,19 @@ extension MainScreenViewController: MainScreenProtocol {
 
 				tableView.isHidden = false
 				emptyStateView.isHidden = true
-
 				updateData(on: self.messages)
-
 
 				if shouldScrollToBottom {
 						scrollToBottom()
+				} else {
+						stayAtCell()
 				}
-				stayAtCell()
 		}
 
 
 		func send(new message: Message) {
 				messages.append(message)
-				self.updateData(on: self.messages)
+				updateData(on: self.messages)
 				scrollToBottom()
 		}
 
@@ -167,10 +165,8 @@ extension MainScreenViewController {
 						guard let presenter else { return }
 
 						if presenter.hasMoreMessages, !presenter.isLoading {
-								presenter.offset += 1
 								presenter.fetchMessages()
 								shouldScrollToBottom = false
-
 						}
 				}
 		}
@@ -206,8 +202,7 @@ extension MainScreenViewController: UITableViewDelegate {
 }
 
 
-//MARK: - SubViews configurations
-
+//MARK: - Subviews configurations
 extension MainScreenViewController {
 
 		private func configureScreenLabel() {

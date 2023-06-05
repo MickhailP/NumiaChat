@@ -15,6 +15,5 @@ enum ErrorMessage: String, Error {
 		case statusCodeError = "Status code is not 200-300"
 		case invalidData = "Data is missing"
 		case decodingError = "Decoding"
-		case unableFavourites = "Failed to load data from storage."
-		case alreadySaved = "This follower has been saved already."
+		case unableFetchFromDataBase = "Failed to load data from storage."
 }
