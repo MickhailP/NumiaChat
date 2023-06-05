@@ -49,13 +49,7 @@ final class MessageCell: UITableViewCell {
 		private func setupLabel() {
 				contentView.addSubview(messageText)
 
-				NSLayoutConstraint.activate([
-						messageText.topAnchor.constraint(equalTo: messageContainer.topAnchor, constant: 5),
-						messageText.bottomAnchor.constraint(equalTo: messageContainer.bottomAnchor, constant: -5),
-						messageText.leadingAnchor.constraint(equalTo: messageContainer.leadingAnchor, constant: 5),
-						messageText.trailingAnchor.constraint(equalTo: messageContainer.trailingAnchor, constant: -5),
-						
-				])
+				messageText.pinToEdgesOf(view: messageContainer, constant: 5)
 		}
 
 

@@ -38,12 +38,6 @@ final class MessageContainer: UIView {
 				layer.cornerRadius = 10
 				clipsToBounds = true
 
-
-				NSLayoutConstraint.activate([
-						messageText.topAnchor.constraint(equalTo: self.topAnchor, constant: Paddings.padding10),
-						messageText.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Paddings.padding10),
-						messageText.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Paddings.padding10),
-						messageText.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -Paddings.padding10),
-				])
+				messageText.pinToEdgesOf(view: self, constant: Paddings.padding10)
 		}
 }

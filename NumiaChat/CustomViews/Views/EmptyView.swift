@@ -38,13 +38,7 @@ class EmptyView: UIView {
 
 				backgroundColor = .tertiarySystemBackground
 
-				NSLayoutConstraint.activate([
-						messageLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-						messageLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-						messageLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-						messageLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
-				])
-
+				messageLabel.pinToEdgesOf(view: self, constant: 0)
 		}
 }
 
