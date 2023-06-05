@@ -29,6 +29,7 @@ final class MainScreenViewController: UIViewController  {
 		private let screenLabel = NCTitleLabel(textAlignment: .center, fontSize: 25)
 		private let chatBarView = UIView()
 		private let emptyStateView = EmptyView(message: "Seems the chat is empty. Try to send a message.")
+		private let loadingView = NCDataLoadingView(frame: .zero)
 		
 		var chatViewBottomConstraint: NSLayoutConstraint?
 
@@ -144,6 +145,7 @@ extension MainScreenViewController: MainScreenProtocol {
 
 				tableView.isHidden = false
 				emptyStateView.isHidden = true
+				loadingView.isHidden = true
 				updateData(on: self.presenter.messages)
 
 				switch scrollOption {
@@ -181,6 +183,7 @@ extension MainScreenViewController {
 				if position < 100 {
 						if presenter.hasMoreMessages, !presenter.isLoading {
 								presenter.fetchMessages(withScroll: .stay)
+								loadingView.isHidden = false
 						}
 				}
 		}
@@ -195,6 +198,7 @@ extension MainScreenViewController {
 				configureChatBarView()
 				configureEmptyStateView()
 				configureTableView()
+				configureLoadingView()
 		}
 
 		private func configureScreenLabel() {
@@ -252,12 +256,23 @@ extension MainScreenViewController {
 		private func configureEmptyStateView() {
 				view.addSubview(emptyStateView)
 
-
 				NSLayoutConstraint.activate([
 						emptyStateView.topAnchor.constraint(equalTo: screenLabel.bottomAnchor),
 						emptyStateView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
 						emptyStateView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
 						emptyStateView.bottomAnchor.constraint(equalTo: chatBarView.topAnchor)
+				])
+		}
+
+		private func configureLoadingView() {
+				view.addSubview(loadingView)
+				loadingView.isHidden = true
+
+				NSLayoutConstraint.activate([
+						loadingView.topAnchor.constraint(equalTo: screenLabel.bottomAnchor),
+						loadingView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+						loadingView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+						loadingView.bottomAnchor.constraint(equalTo: chatBarView.topAnchor)
 				])
 		}
 }
