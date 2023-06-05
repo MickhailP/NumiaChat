@@ -9,6 +9,7 @@ import Foundation
 
 
 struct Message: Hashable, Codable {
+		let id: UUID
 		let time: Date
 		let text: String
 		let avatarURL: String

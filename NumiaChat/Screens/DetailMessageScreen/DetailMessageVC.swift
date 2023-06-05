@@ -8,12 +8,18 @@
 import UIKit
 
 
+protocol DetailMessageScreenDelegate: AnyObject {
+		
+		func deleteMessageButtonPressed(for message: Message)
+}
+
 final class DetailMessageVC: UIViewController {
 
 		let message: Message
 
-		let contentView = UIView()
+		weak var delegate: DetailMessageScreenDelegate?
 
+		let contentView = UIView()
 		let messageInfoHeader = UIView()
 		let messageTextView = MessageContainer(frame: .zero)
 
@@ -64,6 +70,8 @@ final class DetailMessageVC: UIViewController {
 
 		@objc func deleteMessage() {
 				print("DELETE")
+				delegate?.deleteMessageButtonPressed(for: message)
+				navigationController?.popViewController(animated: true)
 		}
 
 

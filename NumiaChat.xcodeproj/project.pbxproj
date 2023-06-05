@@ -200,6 +200,14 @@
 			path = ModuleBuilder;
 			sourceTree = "<group>";
 		};
+		D7BBD46C2A2DD8D8005619C7 /* DetailMessageScreen */ = {
+			isa = PBXGroup;
+			children = (
+				D7AE40892A2C924100FEB944 /* DetailMessageVC.swift */,
+			);
+			path = DetailMessageScreen;
+			sourceTree = "<group>";
+		};
 		D7C96DF22A2D11110051CD49 /* DataServices */ = {
 			isa = PBXGroup;
 			children = (
@@ -256,7 +264,7 @@
 			children = (
 				D7A94F092A2A4BEA00835299 /* ModuleBuilder */,
 				D7EDF9EA2A28CB7D003E8D1D /* MainScreen */,
-				D7AE40892A2C924100FEB944 /* DetailMessageVC.swift */,
+				D7BBD46C2A2DD8D8005619C7 /* DetailMessageScreen */,
 			);
 			path = Screens;
 			sourceTree = "<group>";

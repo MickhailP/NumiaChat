@@ -13,7 +13,8 @@ protocol StorageManagerProtocol {
 
 		func saveToDataBase(new message: Message)
 		func getLocalMessagesFromDatabase() throws -> [Message]
-		func deleteMessage()
+		func findMessageInStorage(by id: UUID) -> MessageModel?
+		func deleteMessage(by id: UUID)
 }
 
 
@@ -29,6 +30,7 @@ final class CoreDataStorageManager: StorageManagerProtocol {
 		func saveToDataBase(new message: Message) {
 				let managedContext = AppDelegate.sharedAppDelegate.coreDataStack.managedContext
 				let newMessage = MessageModel(context: managedContext)
+				newMessage.id = message.id
 				newMessage.time = Date()
 				newMessage.text = message.text
 				newMessage.avatarURL = message.avatarURL
@@ -49,7 +51,7 @@ final class CoreDataStorageManager: StorageManagerProtocol {
 						let results = try managedContext.fetch(messageFetch)
 
 						fetchedMessages = results.map { fetched in
-								Message(time: fetched.wrappedTime, text: fetched.wrappedText, avatarURL: fetched.wrappedAvatarURL)
+								Message(id: fetched.wrappedId, time: fetched.wrappedTime, text: fetched.wrappedText, avatarURL: fetched.wrappedAvatarURL)
 						}
 
 				} catch let error as NSError {
@@ -60,7 +62,26 @@ final class CoreDataStorageManager: StorageManagerProtocol {
 				return fetchedMessages
 		}
 
-		func deleteMessage() {
-			
+		func findMessageInStorage(by id: UUID) -> MessageModel? {
+				let request: NSFetchRequest<MessageModel> = MessageModel.fetchRequest()
+				let predicate = NSPredicate(format: "id = %@", id as CVarArg)
+				request.predicate = predicate
+
+				do {
+						let result = try coreDataStack.managedContext.fetch(request)
+						print("FIND: \(result)")
+						return result.first
+				} catch {
+						print("Fetch error: \(error) description: \(error.localizedDescription)")
+						return nil
+				}
+		}
+
+		func deleteMessage(by id: UUID) {
+				let context = coreDataStack.managedContext
+				if let message = findMessageInStorage(by: id) {
+						context.delete(message)
+						coreDataStack.saveContext()
+				}
 		}
 }

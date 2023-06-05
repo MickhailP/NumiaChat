@@ -8,6 +8,7 @@
 import UIKit
 
 protocol ChatTextfieldDelegate: AnyObject {
+
 		func didTapSendButton(with message: String)
 }
 

@@ -8,23 +8,32 @@
 import UIKit
 
 final class MainScreenViewController: UIViewController  {
-
-		var presenter: MainScreenPresenterProtocol?
-
+		
+		var presenter: MainScreenPresenterProtocol
+		
 		private var tableView = UITableView(frame: .zero, style: .plain)
 		private var dataSource: UITableViewDiffableDataSource<Section, Message>?
 		
 		private let screenLabel = NCTitleLabel(textAlignment: .center, fontSize: 25)
 		private let chatBarView = UIView()
-
+		
 		private let emptyStateView = EmptyView(message: "Seems the chat is empty. Try to send a message.")
 
-		private var messages: [Message] = []
-
+		
 		var shouldScrollToBottom = true
 		var lastCellIndex = 0
-
+		
 		var chatViewBottomConstraint: NSLayoutConstraint?
+		
+		init(presenter: MainScreenPresenterProtocol) {
+				self.presenter = presenter
+				super.init(nibName: nil, bundle: nil)
+		}
+
+		required init?(coder: NSCoder) {
+				fatalError("init(coder:) has not been implemented")
+		}
+
 		
 		override func viewDidLoad() {
 				super.viewDidLoad()
@@ -41,8 +50,8 @@ final class MainScreenViewController: UIViewController  {
 
 				setNotificationForKeyboardAppearance()
 
-				presenter?.getLocalMessagesFromDataBase()
-				presenter?.fetchMessages()
+				presenter.getLocalMessagesFromDataBase()
+				presenter.fetchMessages()
 		}
 
 
@@ -67,13 +76,13 @@ final class MainScreenViewController: UIViewController  {
 extension MainScreenViewController {
 
 		func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-				messages.count
+				presenter.messages.count
 		}
 
 
 		func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 				let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.messageCell, for: indexPath) as! MessageCell
-				cell.setCell(with: messages[indexPath.row])
+				cell.setCell(with: presenter.messages[indexPath.row])
 				return cell
 		}
 }
@@ -118,8 +127,6 @@ extension MainScreenViewController: MainScreenProtocol {
 
 				lastCellIndex = messages.count
 
-				self.messages.insert(contentsOf: messages.reversed(), at: 0)
-
 				if messages.isEmpty {
 						let action = UIAlertAction(title: "ok", style: .default)
 						displayAlert(with: "Info", message: "There are not more messages", actions: [action])
@@ -128,7 +135,16 @@ extension MainScreenViewController: MainScreenProtocol {
 
 				tableView.isHidden = false
 				emptyStateView.isHidden = true
-				updateData(on: self.messages)
+				updateData(on: self.presenter.messages)
+
+//				switch scrollOption {
+//						case.bottom:
+//								scrollToBottom()
+//						case.stay:
+//								stayAtCell()
+//						case .none:
+//								return
+//				}
 
 				if shouldScrollToBottom {
 						scrollToBottom()
@@ -139,8 +155,8 @@ extension MainScreenViewController: MainScreenProtocol {
 
 
 		func send(new message: Message) {
-				messages.append(message)
-				updateData(on: self.messages)
+				presenter.messages.append(message)
+				updateData(on: self.presenter.messages)
 				scrollToBottom()
 		}
 
@@ -148,7 +164,7 @@ extension MainScreenViewController: MainScreenProtocol {
 		func didFinishedFetchingWithError(message: String) {
 				// SHOW ALERT
 				let action = UIAlertAction(title: "Try again", style: .default) { _ in
-						self.presenter?.fetchMessages()
+						self.presenter.fetchMessages()
 				}
 				displayAlert(with: "Error occurred", message: message, actions: [action])
 		}
@@ -158,12 +174,14 @@ extension MainScreenViewController: MainScreenProtocol {
 //MARK: - Pagination, Scrolling
 extension MainScreenViewController {
 
+//		enum ScrollOptions {
+//				case bottom, stay, none
+//		}
+
 		func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
 				let position = scrollView.contentOffset.y
 
 				if position < 100 {
-						guard let presenter else { return }
-
 						if presenter.hasMoreMessages, !presenter.isLoading {
 								presenter.fetchMessages()
 								shouldScrollToBottom = false
@@ -174,14 +192,13 @@ extension MainScreenViewController {
 
 		private func scrollToBottom() {
 				DispatchQueue.main.async {
-						let bottomRow = IndexPath(row: self.messages.count - 1, section: 0)
+						let bottomRow = IndexPath(row: self.presenter.messages.count - 1, section: 0)
 						self.tableView.scrollToRow(at: bottomRow, at: .top, animated: true)
 				}
 		}
 
 		private func stayAtCell() {
 				DispatchQueue.main.async {
-
 						let current = IndexPath(row: self.lastCellIndex - 1, section: 0)
 						print("ROW: \(current)")
 						self.tableView.scrollToRow(at: current, at: .top, animated: false)
@@ -194,9 +211,9 @@ extension MainScreenViewController {
 extension MainScreenViewController: UITableViewDelegate {
 
 		func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-				let message = messages[indexPath.row]
+				let message = presenter.messages[indexPath.row]
 
-				let destVC = ModuleBuilder().buildDetailMessageVC(with: message)
+				let destVC = ModuleBuilder().buildDetailMessageVC(with: message, delegate: presenter)
 				navigationController?.pushViewController(destVC, animated: true)
 		}
 }
@@ -240,8 +257,6 @@ extension MainScreenViewController {
 
 
 		private func configureChatBarView() {
-
-				guard let presenter else { return }
 
 				let textFieldVC = ChatTextfieldVC(delegate: presenter)
 				add(childVC: textFieldVC, to: chatBarView)
