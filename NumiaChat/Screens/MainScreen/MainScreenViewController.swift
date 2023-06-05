@@ -7,23 +7,31 @@
 
 import UIKit
 
+//MARK: - MainScreenProtocol
+protocol MainScreenProtocol: AnyObject {
+
+		func updateUI(with messages: [Message], scrollOption: ScrollOption)
+		func sendNewMessage()
+		func didFinishedFetchingWithError(message: String)
+}
+
+
+
+//MARK: - MainScreenViewController
 final class MainScreenViewController: UIViewController  {
 		
 		var presenter: MainScreenPresenterProtocol
+		var lastCellIndex = 0
 		
 		private var tableView = UITableView(frame: .zero, style: .plain)
 		private var dataSource: UITableViewDiffableDataSource<Section, Message>?
 		
 		private let screenLabel = NCTitleLabel(textAlignment: .center, fontSize: 25)
 		private let chatBarView = UIView()
-		
 		private let emptyStateView = EmptyView(message: "Seems the chat is empty. Try to send a message.")
-
-		
-		var shouldScrollToBottom = true
-		var lastCellIndex = 0
 		
 		var chatViewBottomConstraint: NSLayoutConstraint?
+
 		
 		init(presenter: MainScreenPresenterProtocol) {
 				self.presenter = presenter
@@ -40,30 +48,22 @@ final class MainScreenViewController: UIViewController  {
 
 				view.backgroundColor = .systemTeal
 
-				configureScreenLabel()
-				configureChatBarView()
-				configureEmptyStateView()
-				configureTableView()
-
-				hideKeyboardWhenTappedAround()
+				configureSubviews()
 				configureDataSource()
 
+				hideKeyboardWhenTappedAround()
 				setNotificationForKeyboardAppearance()
 
 				presenter.getLocalMessagesFromDataBase()
-				presenter.fetchMessages()
+				presenter.fetchMessages(withScroll: .bottom)
 		}
 
 
 		override func viewWillAppear(_ animated: Bool) {
 				super.viewWillAppear(animated)
-
+				navigationController?.setNavigationBarHidden(true, animated: animated)
 		}
 
-		override func viewDidAppear(_ animated: Bool) {
-				super.viewDidAppear(animated)
-				navigationController?.isNavigationBarHidden = true
-		}
 
 		override func viewWillDisappear(_ animated: Bool) {
 				super.viewWillDisappear(animated)
@@ -87,6 +87,17 @@ extension MainScreenViewController {
 		}
 }
 
+//MARK: - UITableViewDelegate
+extension MainScreenViewController: UITableViewDelegate {
+
+		func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+				let message = presenter.messages[indexPath.row]
+
+				let destVC = ModuleBuilder().buildDetailMessageVC(with: message, delegate: presenter)
+				navigationController?.pushViewController(destVC, animated: true)
+		}
+}
+
 
 //MARK: - DataSource configuration
 extension MainScreenViewController {
@@ -95,9 +106,7 @@ extension MainScreenViewController {
 				case main
 		}
 
-
 		private func configureDataSource() {
-
 				dataSource = UITableViewDiffableDataSource<Section, Message> (tableView: tableView, cellProvider: { tableView, indexPath, message in
 						let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.messageCell, for: indexPath) as! MessageCell
 						cell.setCell(with: message)
@@ -123,7 +132,7 @@ extension MainScreenViewController {
 //MARK: - MainScreenProtocol
 extension MainScreenViewController: MainScreenProtocol {
 
-		func updateUI(with messages: [Message]) {
+		func updateUI(with messages: [Message],	scrollOption: ScrollOption) {
 
 				lastCellIndex = messages.count
 
@@ -137,34 +146,26 @@ extension MainScreenViewController: MainScreenProtocol {
 				emptyStateView.isHidden = true
 				updateData(on: self.presenter.messages)
 
-//				switch scrollOption {
-//						case.bottom:
-//								scrollToBottom()
-//						case.stay:
-//								stayAtCell()
-//						case .none:
-//								return
-//				}
-
-				if shouldScrollToBottom {
-						scrollToBottom()
-				} else {
-						stayAtCell()
+				switch scrollOption {
+						case.bottom:
+								tableView.scrollToBottom(to: self.presenter.messages.count - 1, in: 0)
+						case.stay:
+								tableView.stayAtCell(to: self.lastCellIndex - 1, in: 0)
+						case .none:
+								return
 				}
 		}
 
 
-		func send(new message: Message) {
-				presenter.messages.append(message)
+		func sendNewMessage() {
 				updateData(on: self.presenter.messages)
-				scrollToBottom()
+				tableView.scrollToBottom(to: self.presenter.messages.count - 1)
 		}
 
 
 		func didFinishedFetchingWithError(message: String) {
-				// SHOW ALERT
 				let action = UIAlertAction(title: "Try again", style: .default) { _ in
-						self.presenter.fetchMessages()
+						self.presenter.fetchMessages(withScroll: .bottom)
 				}
 				displayAlert(with: "Error occurred", message: message, actions: [action])
 		}
@@ -174,53 +175,27 @@ extension MainScreenViewController: MainScreenProtocol {
 //MARK: - Pagination, Scrolling
 extension MainScreenViewController {
 
-//		enum ScrollOptions {
-//				case bottom, stay, none
-//		}
-
 		func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
 				let position = scrollView.contentOffset.y
 
 				if position < 100 {
 						if presenter.hasMoreMessages, !presenter.isLoading {
-								presenter.fetchMessages()
-								shouldScrollToBottom = false
+								presenter.fetchMessages(withScroll: .stay)
 						}
 				}
-		}
-
-
-		private func scrollToBottom() {
-				DispatchQueue.main.async {
-						let bottomRow = IndexPath(row: self.presenter.messages.count - 1, section: 0)
-						self.tableView.scrollToRow(at: bottomRow, at: .top, animated: true)
-				}
-		}
-
-		private func stayAtCell() {
-				DispatchQueue.main.async {
-						let current = IndexPath(row: self.lastCellIndex - 1, section: 0)
-						print("ROW: \(current)")
-						self.tableView.scrollToRow(at: current, at: .top, animated: false)
-				}
-		}
-}
-
-
-//MARK: - UITableViewDelegate
-extension MainScreenViewController: UITableViewDelegate {
-
-		func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-				let message = presenter.messages[indexPath.row]
-
-				let destVC = ModuleBuilder().buildDetailMessageVC(with: message, delegate: presenter)
-				navigationController?.pushViewController(destVC, animated: true)
 		}
 }
 
 
 //MARK: - Subviews configurations
 extension MainScreenViewController {
+
+		private func configureSubviews() {
+				configureScreenLabel()
+				configureChatBarView()
+				configureEmptyStateView()
+				configureTableView()
+		}
 
 		private func configureScreenLabel() {
 				view.addSubview(screenLabel)
@@ -292,9 +267,13 @@ extension MainScreenViewController {
 //MARK: - Keyboard avoidance
 extension MainScreenViewController {
 
+		private func scrollWhenKeyboardShows() {
+				tableView.scrollToBottom(to: self.presenter.messages.count - 1)
+		}
+
 		@objc override func keyboardWillShow(_ notification: NSNotification) {
 					if let chatViewBottomConstraint	{
-						moveViewWithKeyboard(notification: notification, viewBottomConstraint: chatViewBottomConstraint, keyboardWillShow: true, action: scrollToBottom)
+							moveViewWithKeyboard(notification: notification, viewBottomConstraint: chatViewBottomConstraint, keyboardWillShow: true, action: scrollWhenKeyboardShows)
 				}
 		}
 

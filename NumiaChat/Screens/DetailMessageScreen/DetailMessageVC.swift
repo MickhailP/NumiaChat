@@ -13,6 +13,7 @@ protocol DetailMessageScreenDelegate: AnyObject {
 		func deleteMessageButtonPressed(for message: Message)
 }
 
+
 final class DetailMessageVC: UIViewController {
 
 		let message: Message
@@ -22,7 +23,6 @@ final class DetailMessageVC: UIViewController {
 		let contentView = UIView()
 		let messageInfoHeader = UIView()
 		let messageTextView = MessageContainer(frame: .zero)
-
 
 
 		init(message: Message) {

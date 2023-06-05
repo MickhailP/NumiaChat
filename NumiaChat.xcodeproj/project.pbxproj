@@ -28,6 +28,7 @@
 		D7AE408A2A2C924100FEB944 /* DetailMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AE40892A2C924100FEB944 /* DetailMessageVC.swift */; };
 		D7AE408C2A2C93B800FEB944 /* UserInfoHeaderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AE408B2A2C93B800FEB944 /* UserInfoHeaderVC.swift */; };
 		D7BBD46B2A2DB492005619C7 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BBD46A2A2DB492005619C7 /* StorageManager.swift */; };
+		D7BBD46E2A2DF4EB005619C7 /* TableViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BBD46D2A2DF4EB005619C7 /* TableViewExt.swift */; };
 		D7C96DEC2A2CCF970051CD49 /* MessageContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C96DEB2A2CCF970051CD49 /* MessageContainer.swift */; };
 		D7C96DF52A2D11380051CD49 /* Messages.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D7C96DF32A2D11380051CD49 /* Messages.xcdatamodeld */; };
 		D7C96DFE2A2D138E0051CD49 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C96DFD2A2D138E0051CD49 /* CoreDataStack.swift */; };
@@ -65,6 +66,7 @@
 		D7AE40892A2C924100FEB944 /* DetailMessageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMessageVC.swift; sourceTree = "<group>"; };
 		D7AE408B2A2C93B800FEB944 /* UserInfoHeaderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserInfoHeaderVC.swift; path = ../../../../../../../Desktop/UserInfoHeaderVC.swift; sourceTree = "<group>"; };
 		D7BBD46A2A2DB492005619C7 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		D7BBD46D2A2DF4EB005619C7 /* TableViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewExt.swift; sourceTree = "<group>"; };
 		D7C96DEB2A2CCF970051CD49 /* MessageContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageContainer.swift; sourceTree = "<group>"; };
 		D7C96DF42A2D11380051CD49 /* Message.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Message.xcdatamodel; sourceTree = "<group>"; };
 		D7C96DFD2A2D138E0051CD49 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CoreDataStack.swift; path = ../../../../CoreDataStack.swift; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 			children = (
 				D77EE8F32A2936310023EC07 /* UIViewControllerExt.swift */,
 				D7A94F072A2A307200835299 /* DateExt.swift */,
+				D7BBD46D2A2DF4EB005619C7 /* TableViewExt.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -403,6 +406,7 @@
 				D7AE408A2A2C924100FEB944 /* DetailMessageVC.swift in Sources */,
 				D73E52352A28B8700019BC95 /* AppDelegate.swift in Sources */,
 				D7A94F062A2A2A3600835299 /* MessageResponse.swift in Sources */,
+				D7BBD46E2A2DF4EB005619C7 /* TableViewExt.swift in Sources */,
 				D77EE8EA2A2922E30023EC07 /* NCTextField.swift in Sources */,
 				D7BBD46B2A2DB492005619C7 /* StorageManager.swift in Sources */,
 				D73E52372A28B8700019BC95 /* SceneDelegate.swift in Sources */,

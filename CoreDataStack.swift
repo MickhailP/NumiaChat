@@ -7,7 +7,7 @@
 
 import CoreData
 
-class CoreDataStack {
+final class CoreDataStack {
 		private let modelName: String
 
 		init(modelName: String) {

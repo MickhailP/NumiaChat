@@ -10,7 +10,6 @@ import UIKit
 final class MessageCell: UITableViewCell {
 
 		let messageContainer = MessageContainer(frame: .zero)
-
 		let messageText: UILabel = NCBodyLabel()
 		let avatarImage = NCImageView(placeholder: Images.avatarPlaceholder)
 
@@ -25,6 +24,13 @@ final class MessageCell: UITableViewCell {
 				fatalError("init(coder:) has not been implemented")
 		}
 
+
+		override func prepareForReuse() {
+				super.prepareForReuse()
+				avatarImage.image = avatarImage.placeholder
+		}
+
+		
 		func setCell(with message: Message) {
 				messageText.text = message.text
 				avatarImage.getImage(from: message.avatarURL)
@@ -32,7 +38,6 @@ final class MessageCell: UITableViewCell {
 
 
 		private func configureCell() {
-//				configureStackView()
 				configureImage()
 				configureMessageContainer()
 				setupLabel()
@@ -77,11 +82,5 @@ final class MessageCell: UITableViewCell {
 						messageContainer.trailingAnchor.constraint(equalTo: avatarImage.leadingAnchor, constant: -Paddings.padding10),
 						messageContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Paddings.padding10),
 				])
-		}
-
-
-		override func prepareForReuse() {
-				super.prepareForReuse()
-				avatarImage.image = avatarImage.placeholder
 		}
 }
